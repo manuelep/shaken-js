@@ -9,10 +9,16 @@
 
 function compileTemplate (template, directives) {
     /**
+     * Function that apply the Shaken-js DOM elements compilation logic.
      * template @element : The template HTML element.
+     *     data-name and data-case attributes will be used for element compilation.
+     *     1. If only data-name is specified the corresponding value in the directives will replace the tag inner text.
+     *     2. If data-case is specified the corresponding value in the directives will replace the specied tag attribute.
      * directives @object :
      *     {"<key>": "<value>", "<key>": [{"<key>": "<value>", ...}, ...]}
-    */
+     *     - If value is a list the conteined objects will be used as directives for the identified element child.
+     *
+     */
     Object.entries(directives).forEach(([name, value]) => {
         let elements = template.querySelectorAll(`[data-name='${name}']`);
         for (let el of elements) {
@@ -42,10 +48,12 @@ function compileTemplate (template, directives) {
 class LocalComponent {
     constructor (element, updateUrl) {
         /*!
-         * element @string or @object:
+         * A component builded up around a local DOM element.
+         * element @string or @object :
          *     @string : DOM element id or HTML tag;
          *     @object : DOM element;
          *     (optional default 'div')
+         * updateUrl @string : Url for updating element values;
          */
         this.updateUrl = updateUrl;
         if ( !element ) {
@@ -85,11 +93,10 @@ class LocalComponent {
     };
 };
 
-//
-
 class RemoteComponent extends LocalComponent {
     constructor(url, element, updateUrl) {
         /*!
+         * A component witch template will be retrieved at the specified url.
          * url @string: Url for retrieving the pure HTML component template;
          */
         super(element, updateUrl);
@@ -110,15 +117,4 @@ class RemoteComponent extends LocalComponent {
             return self.element
         });
     };
-
-    // update (init, first) {
-    //     var self = this;
-    //     if ( first ) {
-    //         this.load().then(el => {
-    //             return LocalComponent.prototype.update.call(self, init);
-    //         });
-    //     } else {
-    //         return LocalComponent.prototype.update.call(self, init);
-    //     };
-    // };
 }
