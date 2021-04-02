@@ -40,7 +40,8 @@
                                 </a>
                             </span> -->
                             <span class="navbar-item">
-                                <a class="button is-white is-outlined" href="#">
+                                <a class="button is-white is-outlined"
+                                    href="https://github.com/manuelep/shaken-js/blob/pages/index.html">
                                     <span class="icon">
                                         <i class="fa fa-glass"></i>
                                     </span>
@@ -154,7 +155,6 @@
                 let mix = ingredients.map((e, i) => {return {...e, ...measures[i]}});
                 infos.push({...info, ingredients: mix});
             });
-            console.log(infos);
             component.compile({recipes: infos})
         });
     </script>
