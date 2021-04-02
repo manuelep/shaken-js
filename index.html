@@ -85,12 +85,15 @@
                       <div class="container">
                         <div class="columns is-multiline">
 
+                            <!-- Content of this tag will be used as a template and repeated looping over recipes varialbe values -->
                             <div class="column is-12-mobile is-6-tablet is-4-widescreen is-6-desktop" data-name="recipes">
 
                               <div class="item post-card bottom-border">
                                   <figure class="image lazyload is-3by2 item-figure background-img initial loaded">
+                                      <!-- url you see in src parameter is just a placeholder it will be replaced by strDrinkThumb variable value -->
                                       <img src="https://loremflickr.com/640/480/cocktail,glass/all" data-name="strDrinkThumb" data-case="src">
                                   </figure>
+                                  <!-- Where strDrink variable value will be shown -->
                                   <h2 class="title item-title is-size-4 has-text-weight-extra-bold" data-name="strDrink">
                                       My Cocktail
                                   </h2>
@@ -99,6 +102,7 @@
                                       <div class="card">
                                           <div class="card-content">
                                               <div class="content">
+                                                <!-- Where strInstructions variable value will be shown -->
                                                 <p data-name="strInstructions">The recipe.</p>
                                                 <div class="level">
                                                   <div class="level-left">
@@ -116,8 +120,11 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody id="ingredients">
+                                                        <!-- Content of this tag will be used as a template and repeated looping over ingredients varialbe values -->
                                                         <tr data-name="ingredients">
+                                                            <!-- Where ingredient variable value will be shown -->
                                                             <td data-name="ingredient"></td>
+                                                            <!-- Where measure variable value will be shown -->
                                                             <td data-name="measure"></td>
                                                         </tr>
                                                     </tbody>
@@ -150,9 +157,11 @@
         ]).then(([resp1, resp2, resp3]) => {
             let infos = [];
             [resp1.drinks[0], resp2.drinks[0], resp3.drinks[0]].forEach(info => {
+                // Just adapting the resource output to Shaken-js logic
                 let ingredients = Array.from(new Set(Object.keys(info).filter(k => k.startsWith("strIngredient")&&info[k]).map(k => {return {ingredient: info[k]}})));
                 let measures = Array.from(new Set(Object.keys(info).filter(k => k.startsWith("strMeasure")&&info[k]).map(k => {return {measure: info[k]}})));
                 let mix = ingredients.map((e, i) => {return {...e, ...measures[i]}});
+                // now ingredients has value like: [{ingredient: "The ingredient name", measure: "The ingredient measure"}, ...]
                 infos.push({...info, ingredients: mix});
             });
             component.compile({recipes: infos})
