@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Shaken-js</title>
+    <link rel="shortcut icon" href="../images/fav_icon.png" type="image/x-icon">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+    <!-- Bulma Version 0.9.0-->
+    <link rel="stylesheet" href="https://unpkg.com/bulma@0.9.0/css/bulma.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/landing.css">
+</head>
+
+<body>
+    <section class="hero is-info is-fullheight">
+        <div class="hero-head">
+            <nav class="navbar">
+                <div class="container">
+                    <div class="navbar-brand">
+                        <!-- <a class="navbar-item" href="../">
+                            <img src="http://bulma.io/images/bulma-type-white.png" alt="Logo">
+                        </a> -->
+                        <span class="navbar-burger burger" data-target="navbarMenu">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </span>
+                    </div>
+                    <div id="navbarMenu" class="navbar-menu">
+                        <div class="navbar-end">
+                            <!-- <span class="navbar-item">
+                                <a class="button is-white is-outlined" href="#">
+                                    <span class="icon">
+                                        <i class="fa fa-home"></i>
+                                    </span>
+                                    <span>Home</span>
+                                </a>
+                            </span> -->
+                            <span class="navbar-item">
+                                <a class="button is-white is-outlined" href="#">
+                                    <span class="icon">
+                                        <i class="fa fa-glass"></i>
+                                    </span>
+                                    <span>Example</span>
+                                </a>
+                            </span>
+                            <!-- <span class="navbar-item">
+                                <a class="button is-white is-outlined" href="#">
+                                    <span class="icon">
+                                        <i class="fa fa-book"></i>
+                                    </span>
+                                    <span>Documentation</span>
+                                </a>
+                            </span> -->
+                            <span class="navbar-item">
+                                <a class="button is-white is-outlined"
+                                    href="https://github.com/manuelep/shaken-js">
+                                    <span class="icon">
+                                        <i class="fa fa-github"></i>
+                                    </span>
+                                    <span>View Source</span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+            </div>
+
+            <div class="hero-body">
+                <div class="container has-text-centered">
+                    <div class="column is-6 is-offset-3">
+                        <h1 class="title">
+                            Shaken JS
+                        </h1>
+                        <h2 class="subtitle">
+                            Shaken, not stirred. A refreshing way to drink JavaScript.
+                        </h2>
+                    </div>
+                    <section class="posts" id="main">
+                      <div class="container">
+                        <div class="columns is-multiline">
+
+                            <div class="column is-12-mobile is-6-tablet is-4-widescreen is-6-desktop" data-name="recipes">
+
+                              <div class="item post-card bottom-border">
+                                  <figure class="image lazyload is-3by2 item-figure background-img initial loaded">
+                                      <img src="https://loremflickr.com/640/480/cocktail,glass/all" data-name="strDrinkThumb" data-case="src">
+                                  </figure>
+                                  <h2 class="title item-title is-size-4 has-text-weight-extra-bold" data-name="strDrink">
+                                      My Cocktail
+                                  </h2>
+                                  <div class="block">
+
+                                      <div class="card">
+                                          <div class="card-content">
+                                              <div class="content">
+                                                <p data-name="strInstructions">The recipe.</p>
+                                                <div class="level">
+                                                  <div class="level-left">
+                                                    <div class="item-author"><i  data-name="strCategory">Ghost</i></div>
+                                                  </div>
+                                                  <div class="level-right">
+                                                    <div class="item-author"><i data-name="strAlcoholic">Ghost</i></div>
+                                                  </div>
+                                                </div>
+                                                <table class="table">
+                                                    <thead>
+                                                        <tr>
+                                                          <th>Ingredients</th>
+                                                          <th>Measures</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="ingredients">
+                                                        <tr data-name="ingredients">
+                                                            <td data-name="ingredient"></td>
+                                                            <td data-name="measure"></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                              </div>
+                                          </div>
+                                      </div>
+                                  </div>
+                                  <div class="level">
+                                    <div class="level-right">
+                                      <time datetime="2020-12-22" data-name="dateModified">Dec 22, 2020</time>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </section>
+                </div>
+            </div>
+    </section>
+    <!-- <script async type="text/javascript" src="js/bulma.js"></script> -->
+    <script type="text/javascript" src="shaken.js"></script>
+    <script type="text/javascript">
+        let component = new LocalComponent('main');
+        Promise.all([
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php').then(resp => resp.json()),
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php').then(resp => resp.json()),
+            fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php').then(resp => resp.json())
+        ]).then(([resp1, resp2, resp3]) => {
+            let infos = [];
+            [resp1.drinks[0], resp2.drinks[0], resp3.drinks[0]].forEach(info => {
+                let ingredients = Array.from(new Set(Object.keys(info).filter(k => k.startsWith("strIngredient")&&info[k]).map(k => {return {ingredient: info[k]}})));
+                let measures = Array.from(new Set(Object.keys(info).filter(k => k.startsWith("strMeasure")&&info[k]).map(k => {return {measure: info[k]}})));
+                let mix = ingredients.map((e, i) => {return {...e, ...measures[i]}});
+                infos.push({...info, ingredients: mix});
+            });
+            console.log(infos);
+            component.compile({recipes: infos})
+        });
+    </script>
+</body>
+
+</html>
