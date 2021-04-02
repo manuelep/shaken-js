@@ -5,6 +5,10 @@
 
 Just a lightweight javascript framework with no future.
 
+## Does it really works?
+
+[So it seams](https://manuelep.github.io/shaken-js/).
+
 ## Usage examples
 
 > *WARNING*
