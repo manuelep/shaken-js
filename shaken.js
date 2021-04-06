@@ -24,7 +24,6 @@ function compileTemplate (template, directives, notOverwite) {
         let elements = template.querySelectorAll(`[data-name='${name}']`);
         for (let el of elements) {
             if ( Array.isArray(value) ) {
-                console.log(name);
                 let elCase = document.createElement('div');
                 value.forEach(subDirective => {
                     let newContainer = el.cloneNode(true);

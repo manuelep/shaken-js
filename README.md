@@ -9,6 +9,17 @@ Just a lightweight javascript framework with no future.
 
 [So it seams](https://manuelep.github.io/shaken-js/).
 
+## Let's start
+
+### Use a CDN
+
+Shaken-js can be used through [npm](https://www.npmjs.com/package/shaken-js) CDN
+service just adding this line to you HTML page.
+
+```html
+<script src="https://unpkg.com/shaken-js@1.0.0/shaken.js"></script>
+```
+
 ## Usage examples
 
 > *WARNING*
@@ -83,4 +94,7 @@ As alternative the THML element could be retrieved at a certain url, in this cas
   });
   ```
 
+### Class extensions
 
+Maybe a more profitable way to adopt Shaken-js is to extend their classes adding
+custom methods. Here is an [example](https://github.com/manuelep/shaken-js/blob/pages/cocktails.js).
