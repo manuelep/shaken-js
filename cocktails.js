@@ -14,7 +14,6 @@ class Cocktails extends LocalComponent {
                 // now ingredients has value like: [{ingredient: "The ingredient name", measure: "The ingredient measure"}, ...]
                 infos.push({...cocktail, ingredients: mix});
             });
-            console.log(infos);
             component.compile({recipes: infos}, notOverwite);
         });
     };
