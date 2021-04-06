@@ -7,7 +7,7 @@
 	revision: 1.0
 */
 
-function compileTemplate (template, directives) {
+function compileTemplate (template, directives, notOverwite) {
     /**
      * Function that apply the Shaken-js DOM elements compilation logic.
      * template @element : The template HTML element.
@@ -18,18 +18,24 @@ function compileTemplate (template, directives) {
      *     {"<key>": "<value>", "<key>": [{"<key>": "<value>", ...}, ...]}
      *     - If value is a list the conteined objects will be used as directives for the identified element child.
      *
+     * notOverwite @boolean : (default false)
      */
     Object.entries(directives).forEach(([name, value]) => {
         let elements = template.querySelectorAll(`[data-name='${name}']`);
         for (let el of elements) {
             if ( Array.isArray(value) ) {
+                console.log(name);
                 let elCase = document.createElement('div');
                 value.forEach(subDirective => {
-                    compileTemplate(el, subDirective);
                     let newContainer = el.cloneNode(true);
+                    compileTemplate(newContainer, subDirective);
                     elCase.appendChild(newContainer);
                 });
-                el.outerHTML = elCase.innerHTML;
+                if ( notOverwite ) {
+                    el.parentNode.innerHTML += elCase.innerHTML;
+                } else {
+                    el.parentNode.innerHTML = elCase.innerHTML;
+                };
                 return template;
             } else {
                 let attribute = el.getAttribute('data-case');
@@ -69,17 +75,14 @@ class LocalComponent {
             };
         };
     };
-    compile (directives) {
-        return compileTemplate(this.element, directives)
+    compile (directives, notOverwite) {
+        return compileTemplate(this.element, directives, notOverwite)
     };
     fetchData (args, init) {
         let url = this.updateUrl;
         if ( args ) { url+=args }
 
-        return (init ? fetch(url, {}) : fetch(url)).then(resp => resp.json()).then(response => {
-            // self.compile(response.recap);
-            return response;
-        });
+        return (init ? fetch(url, {}) : fetch(url)).then(resp => resp.json())
     };
     remove () {
         //
