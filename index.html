@@ -80,6 +80,25 @@
                         <h2 class="subtitle">
                             Shaken, not stirred. A refreshing way to drink JavaScript.
                         </h2>
+
+                    </div>
+                    <div class="column is-6 is-offset-4">
+                        <p class="buttons">
+
+                          <button class="button is-primary" id="other-cocktails-button">
+                            <span class="icon">
+                              <i class="fa fa-random"></i>
+                            </span>
+                            <span>Give me others</span>
+                          </button>
+                          <button class="button is-warning" id="more-cocktails-button">
+                            <span class="icon">
+                              <i class="fa fa-plus"></i>
+                            </span>
+                            <span>Give me more</span>
+                          </button>
+
+                        </p>
                     </div>
                     <section class="posts" id="main">
                       <div class="container">
@@ -148,23 +167,15 @@
     </section>
     <!-- <script async type="text/javascript" src="js/bulma.js"></script> -->
     <script type="text/javascript" src="shaken.js"></script>
+    <script type="text/javascript" src="cocktails.js"></script>
     <script type="text/javascript">
-        let component = new LocalComponent('main');
-        Promise.all([
-            fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php').then(resp => resp.json()),
-            fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php').then(resp => resp.json()),
-            fetch('https://www.thecocktaildb.com/api/json/v1/1/random.php').then(resp => resp.json())
-        ]).then(([resp1, resp2, resp3]) => {
-            let infos = [];
-            [resp1.drinks[0], resp2.drinks[0], resp3.drinks[0]].forEach(info => {
-                // Just adapting the resource output to Shaken-js logic
-                let ingredients = Array.from(new Set(Object.keys(info).filter(k => k.startsWith("strIngredient")&&info[k]).map(k => {return {ingredient: info[k]}})));
-                let measures = Array.from(new Set(Object.keys(info).filter(k => k.startsWith("strMeasure")&&info[k]).map(k => {return {measure: info[k]}})));
-                let mix = ingredients.map((e, i) => {return {...e, ...measures[i]}});
-                // now ingredients has value like: [{ingredient: "The ingredient name", measure: "The ingredient measure"}, ...]
-                infos.push({...info, ingredients: mix});
-            });
-            component.compile({recipes: infos})
+        let component = new Cocktails('main', 'https://www.thecocktaildb.com/api/json/v1/1/random.php');
+        component.append();
+        document.getElementById("other-cocktails-button").addEventListener("click", function() {
+            component.append();
+        });
+        document.getElementById("more-cocktails-button").addEventListener("click", function() {
+            component.append(3, true);
         });
     </script>
 </body>
