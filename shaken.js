@@ -79,9 +79,8 @@ class LocalComponent {
     };
     fetchData (args, init) {
         let url = this.updateUrl;
-        if ( args ) { url+=args }
-
-        return (init ? fetch(url, {}) : fetch(url)).then(resp => resp.json())
+        if ( args ) { url+=args };
+        return (init ? fetch(url, init) : fetch(url)).then(resp => resp.json())
     };
     remove () {
         //
