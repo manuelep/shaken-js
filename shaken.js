@@ -22,7 +22,8 @@ function compileTemplate (template, directives, notOverwite) {
      */
     Object.entries(directives).forEach(([name, value]) => {
         let elements = template.querySelectorAll(`[data-name='${name}']`);
-        for (let el of elements) {
+        for ( let el of elements ) {
+
             if ( Array.isArray(value) ) {
                 let elCase = document.createElement('div');
                 value.forEach(subDirective => {
@@ -37,8 +38,18 @@ function compileTemplate (template, directives, notOverwite) {
                 };
                 return template;
             } else {
-                let attribute = el.getAttribute('data-case');
-                if ( attribute ) {
+                if ( el.hasAttribute('data-child') ) {
+                    let subel = el.querySelector(el.getAttribute('data-child'));
+                    if ( el.hasAttribute('data-case') ) {
+                        let attribute = el.getAttribute('data-case');
+                        subel.setAttribute(attribute, value);
+                    } else {
+                        subel.innerHTML = '';
+                        subel.appendChild(document.createTextNode(value));
+                    };
+                }
+                else if ( el.hasAttribute('data-case') ) {
+                    let attribute = el.getAttribute('data-case');
                     el.setAttribute(attribute, value);
                 } else {
                     el.innerHTML = '';
